@@ -13,4 +13,19 @@ main {
   border: 1px solid black;
   height: 300px;
   width: 300px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+.cell {
+  border: 1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.symbol {
+  font-family: sans-serif;
+  font-size: 4rem;
 }
