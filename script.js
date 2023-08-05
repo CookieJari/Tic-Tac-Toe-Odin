@@ -1,5 +1,6 @@
 const gameContainer = document.querySelector(".game-container");
 const cellTemplate = gameContainer.querySelector(".cell");
+const resetButton = document.querySelector(".reset");
 
 const Player = (sign) => {
   return { sign };
@@ -33,8 +34,6 @@ const displayController = (() => {
   const display = (board) => {
     // clears board
     gameContainer.innerHTML = "";
-    console.log("DISPLAY: ");
-    console.log(board);
     //for ever row
     for (let i = 0; i < board.length; i++) {
       //Get the cell of each row
@@ -42,7 +41,7 @@ const displayController = (() => {
         const element = board[i][j];
         const cell = cellTemplate.cloneNode(true);
         cell.addEventListener("click", () => {
-          move(i, j, board);
+          gameManager.playRound(i, j, board);
         });
         const symbol = (cell.querySelector(".symbol").innerText =
           element.getValue());
@@ -57,8 +56,15 @@ const displayController = (() => {
 const gameManager = (() => {
   playerX = Player("X");
   playerO = Player("O");
+  const board = gameBoard.board;
+  displayController.display(board);
 
-  let gameOver = false;
+  // TEMPORARY!
+  // N is the board size
+  // The board is n*n this means the board is 3x3
+  let n = 3;
+
+  let moveCount = 0;
 
   const players = [playerX, playerO];
 
@@ -70,27 +76,96 @@ const gameManager = (() => {
   // we can keep using this code.
   const switchPlayer = () => {
     if (players.length - 1 < players.indexOf(activePlayer) + 1) {
-      console.log("true");
       activePlayer = players[0];
     } else {
-      console.log("normal transfer");
       activePlayer = players[players.indexOf(activePlayer) + 1];
     }
   };
 
   //---------------- FINISH THISS ------------------------
-  const playRound = (row, column, board) => {
-    board[row][column].addToken(activePlayer.sign);
-    console.log(board[row][column].getValue());
+  const playRound = (row, column) => {
+    if (board[row][column].getValue()) {
+      console.log("Invalid");
+    } else {
+      board[row][column].addToken(activePlayer.sign);
 
-    console.log(board);
-    switchPlayer();
+      moveCount++;
+
+      //check if winner
+
+      //check ROW
+      for (let i = 0; i < n; i++) {
+        if (board[row][i].getValue() !== activePlayer.sign) {
+          console.log("notwin");
+          break;
+        }
+        if (i === n - 1) {
+          console.log("Win");
+          console.log("The Winner is: " + activePlayer.sign);
+        }
+      }
+
+      //check COLUMN
+      for (let i = 0; i < n; i++) {
+        if (board[i][column].getValue() !== activePlayer.sign) {
+          console.log("notwin");
+          break;
+        }
+        if (i === n - 1) {
+          console.log("Win");
+          console.log("The Winner is: " + activePlayer.sign);
+        }
+      }
+
+      //check DIAGONAL
+
+      for (let i = 0; i < n; i++) {
+        if (board[i][n - 1 - i].getValue() !== activePlayer.sign) {
+          console.log("notwin");
+          break;
+        }
+        if (i === n - 1) {
+          console.log("Win");
+          console.log("The Winner is: " + activePlayer.sign);
+        }
+      }
+
+      //check ANTI-DIAGONAL
+
+      for (let i = 0; i < n; i++) {
+        if (board[i][i].getValue() !== activePlayer.sign) {
+          console.log("notwin");
+          break;
+        }
+        if (i === n - 1) {
+          console.log("Win");
+          console.log("The Winner is: " + activePlayer.sign);
+        }
+      }
+
+      //check DRAW
+
+      if (moveCount === n * n) {
+        console.log("draw");
+      }
+      console.log(board);
+      switchPlayer();
+    }
+
     displayController.display(board);
-
-    //check if winner
   };
 
-  return { playRound };
+  const resetBoard = () => {
+    console.log("resetting");
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        board[i][j].addToken("");
+      }
+    }
+    displayController.display(board);
+  };
+
+  return { playRound, resetBoard };
 })();
 
 function move(row, column, board) {
@@ -103,9 +178,10 @@ function move(row, column, board) {
 
 playerX = Player("X");
 playerO = Player("O");
-const board = gameBoard.board;
-displayController.display(board);
 
+resetButton.onclick = () => {
+  gameManager.resetBoard();
+};
 //gameManager.playRound();
 
 cellTemplate.remove();
