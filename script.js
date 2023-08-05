@@ -1,6 +1,10 @@
 const gameContainer = document.querySelector(".game-container");
 const cellTemplate = gameContainer.querySelector(".cell");
 
+const Player = (sign) => {
+  return { sign };
+};
+
 const Cell = () => {
   let value = "";
   const addToken = (player) => {
@@ -26,34 +30,33 @@ const gameBoard = (() => {
 })();
 
 const displayController = (() => {
-  const board = gameBoard.board;
-  const display = () => {
+  const display = (board) => {
     // clears board
     gameContainer.innerHTML = "";
+    console.log("DISPLAY: ");
     console.log(board);
     //for ever row
     for (let i = 0; i < board.length; i++) {
       //Get the cell of each row
-      board[i].forEach((element) => {
+      for (let j = 0; j < board[i].length; j++) {
+        const element = board[i][j];
         const cell = cellTemplate.cloneNode(true);
+        cell.addEventListener("click", () => {
+          move(i, j, board);
+        });
         const symbol = (cell.querySelector(".symbol").innerText =
           element.getValue());
         gameContainer.appendChild(cell);
-      });
+      }
     }
   };
 
   return { display };
 })();
 
-const Player = (sign) => {
-  return { sign };
-};
-
 const gameManager = (() => {
   playerX = Player("X");
   playerO = Player("O");
-  const board = gameBoard.board;
 
   let gameOver = false;
 
@@ -75,35 +78,34 @@ const gameManager = (() => {
     }
   };
 
-  const playGame = () => {
-    while (!gameOver) {
-      //get input
-      playRound(activePlayer);
-      gameOver = true;
-    }
-  };
-
   //---------------- FINISH THISS ------------------------
-  const playRound = (player) => {
-    let row = prompt("row");
-    console.log("row");
-    console.log(row);
+  const playRound = (row, column, board) => {
+    board[row][column].addToken(activePlayer.sign);
+    console.log(board[row][column].getValue());
 
-    let column = prompt("column");
-    console.log("column");
-    console.log(column);
+    console.log(board);
+    switchPlayer();
+    displayController.display(board);
+
+    //check if winner
   };
 
-  return { playGame };
+  return { playRound };
 })();
+
+function move(row, column, board) {
+  gameManager.playRound(row, column, board);
+}
+
+// ----------------- GLOBAL ----------------
 
 //console.log(gameBoard.board);
 
 playerX = Player("X");
 playerO = Player("O");
-console.log(playerX.sign);
-displayController.display();
+const board = gameBoard.board;
+displayController.display(board);
 
-gameManager.playGame();
+//gameManager.playRound();
 
 cellTemplate.remove();
