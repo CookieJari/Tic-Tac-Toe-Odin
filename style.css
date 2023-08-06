@@ -8,9 +8,27 @@ body {
   height: 100vh;
 }
 main {
+  border: 1px solid red;
   height: 100%;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+}
+main > div {
+  border: 1px solid black;
+}
+/* ---------------------------- HEADER SECTION ----------------------- */
+
+.headers {
   display: flex;
-  flex-direction: column;
+}
+.headers > div {
+  border: 1px solid blue;
+  flex: 1;
+}
+
+/* ---------------------------- MAIN SECTION ----------------------- */
+.main-container {
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -60,4 +78,21 @@ main {
 }
 .X {
   background-image: url(cross.png);
+}
+
+/* ---------------------------- BOTTOM SECTION ----------------------- */
+
+.bottom-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.reset {
+  width: 200px;
+  height: 66px;
+  border-radius: 30px;
+  border: 0px;
+
+  background-color: #9c9aff;
+  font-family: "Figma Hand";
 }
