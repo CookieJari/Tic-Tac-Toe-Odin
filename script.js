@@ -43,8 +43,12 @@ const displayController = (() => {
         cell.addEventListener("click", () => {
           gameManager.playRound(i, j, board);
         });
-        const symbol = (cell.querySelector(".symbol").innerText =
-          element.getValue());
+        const symbol = cell.querySelector(".symbol");
+        const sign = symbol.querySelector(".sign-holder");
+        // check if we have a symbol to display
+        if (element.getValue()) {
+          sign.classList.add(element.getValue());
+        }
         gameContainer.appendChild(cell);
       }
     }
@@ -175,9 +179,6 @@ function move(row, column, board) {
 // ----------------- GLOBAL ----------------
 
 //console.log(gameBoard.board);
-
-playerX = Player("X");
-playerO = Player("O");
 
 resetButton.onclick = () => {
   gameManager.resetBoard();
