@@ -25,6 +25,60 @@ main > div {
   border: 1px solid blue;
   flex: 1;
 }
+/* ------ Left */
+.left-header {
+  display: flex;
+}
+.label-container {
+  background-image: url(label.png);
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 150px;
+}
+
+/* ------ Right */
+
+.right-header {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.score-container {
+  height: 180px;
+  width: 200px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.top-score,
+.bottom-score {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.score-text {
+  font-size: 4.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.player {
+  display: inline-block;
+  width: 4.75rem;
+  height: 4.75rem;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 75%;
+}
 
 /* ---------------------------- MAIN SECTION ----------------------- */
 .main-container {
@@ -87,7 +141,8 @@ main > div {
   align-items: center;
   justify-content: center;
 }
-.reset {
+.reset,
+.close {
   width: 200px;
   height: 66px;
   border-radius: 30px;
@@ -95,4 +150,43 @@ main > div {
 
   background-color: #9c9aff;
   font-family: "Figma Hand";
+}
+.reset:hover,
+.close:hover {
+  background-color: #ffa132;
+}
+
+/* ---------------------------- RESTART WINDOW ----------------------- */
+
+.restart-modal {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.432);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.restart-window {
+  background-color: #d9d9d9;
+  width: 650px;
+  height: 360px;
+  border-radius: 20px;
+
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.restart-window > header {
+  font-size: 5rem;
+  color: white;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 75%;
 }

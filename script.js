@@ -2,8 +2,14 @@ const gameContainer = document.querySelector(".game-container");
 const cellTemplate = gameContainer.querySelector(".cell");
 const resetButton = document.querySelector(".reset");
 
-const Player = (sign) => {
-  return { sign };
+const scoreBoard = document.querySelector(".score-container");
+const restartWindow = document.querySelector(".restart-modal");
+
+const sc = scoreBoard.querySelector("span .score-X");
+console.log(sc);
+
+const Player = (sign, score) => {
+  return { sign, score };
 };
 
 const Cell = () => {
@@ -58,8 +64,9 @@ const displayController = (() => {
 })();
 
 const gameManager = (() => {
-  playerX = Player("X");
-  playerO = Player("O");
+  playerX = Player("X", 0);
+  playerO = Player("O", 0);
+
   const board = gameBoard.board;
   displayController.display(board);
 
@@ -104,8 +111,9 @@ const gameManager = (() => {
           break;
         }
         if (i === n - 1) {
-          console.log("Win");
-          console.log("The Winner is: " + activePlayer.sign);
+          activePlayer.score += 1;
+          win(activePlayer.sign, activePlayer.score);
+          moveCount = 0;
         }
       }
 
@@ -116,8 +124,9 @@ const gameManager = (() => {
           break;
         }
         if (i === n - 1) {
-          console.log("Win");
-          console.log("The Winner is: " + activePlayer.sign);
+          activePlayer.score += 1;
+          win(activePlayer.sign, activePlayer.score);
+          moveCount = 0;
         }
       }
 
@@ -129,8 +138,9 @@ const gameManager = (() => {
           break;
         }
         if (i === n - 1) {
-          console.log("Win");
-          console.log("The Winner is: " + activePlayer.sign);
+          activePlayer.score += 1;
+          win(activePlayer.sign, activePlayer.score);
+          moveCount = 0;
         }
       }
 
@@ -142,15 +152,17 @@ const gameManager = (() => {
           break;
         }
         if (i === n - 1) {
-          console.log("Win");
-          console.log("The Winner is: " + activePlayer.sign);
+          activePlayer.score += 1;
+          win(activePlayer.sign, activePlayer.score);
+          moveCount = 0;
         }
       }
 
       //check DRAW
 
       if (moveCount === n * n) {
-        console.log("draw");
+        win("n", 0);
+        moveCount = 0;
       }
       console.log(board);
       switchPlayer();
@@ -172,6 +184,27 @@ const gameManager = (() => {
   return { playRound, resetBoard };
 })();
 
+const resetController = (() => {
+  const noButton = restartWindow.querySelector(".no-button");
+  const yesButton = restartWindow.querySelector(".yes-button");
+  noButton.onclick = () => {
+    restartWindow.style.display = "none";
+  };
+  yesButton.onclick = () => {
+    gameManager.resetBoard();
+    restartWindow.style.display = "none";
+  };
+  restartWindow.style.display = "none";
+})();
+
+function win(sign, score) {
+  if (sign === "X") {
+    scoreBoard.querySelector(".score-X").innerText = score;
+  } else if (sign === "O") {
+    scoreBoard.querySelector(".score-O").innerText = score;
+  }
+  restartWindow.style.display = "flex";
+}
 function move(row, column, board) {
   gameManager.playRound(row, column, board);
 }
@@ -183,6 +216,5 @@ function move(row, column, board) {
 resetButton.onclick = () => {
   gameManager.resetBoard();
 };
-//gameManager.playRound();
 
 cellTemplate.remove();
