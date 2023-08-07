@@ -8,13 +8,19 @@ body {
   height: 100vh;
 }
 main {
-  border: 1px solid red;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main-grid {
+  width: max(1440px);
   height: 100%;
   display: grid;
   grid-template-rows: repeat(3, 1fr);
 }
 main > div {
-  border: 1px solid black;
 }
 /* ---------------------------- HEADER SECTION ----------------------- */
 
@@ -22,7 +28,6 @@ main > div {
   display: flex;
 }
 .headers > div {
-  border: 1px solid blue;
   flex: 1;
 }
 /* ------ Left */
@@ -160,6 +165,8 @@ main > div {
 
 .restart-modal {
   position: fixed;
+  top: 0;
+  left: 0;
   height: 100%;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.432);
